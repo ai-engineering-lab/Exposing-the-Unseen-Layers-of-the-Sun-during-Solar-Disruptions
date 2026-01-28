@@ -91,7 +91,10 @@ Unsupervised decomposition and clustering are implemented in `solar_slicing.py`.
 - **PCA** – principal components over pixel vectors
 - **NMF** – non-negative matrix factorization
 - **ICA** – independent component analysis
+- **Robust PCA (RPCA)** – background vs. anomalies (stack mode only; outputs `stack_rpca_background.png`, `stack_rpca_anomalies.png`)
 - **K-means** – clustering on (intensity, x, y) for single-image mode
+
+For a detailed explanation of unsupervised ML in this project (what each method does and how it produces layers), see **[UNSUPERVISED_ML.md](UNSUPERVISED_ML.md)**.
 
 **Setup:** Activate the venv, then `pip install -r requirements.txt` (numpy, scikit-learn, Pillow).
 
@@ -111,3 +114,9 @@ python3 solar_slicing.py --images image.png image-3.png image-5.png --out output
 ```
 
 Outputs are saved as PNGs in the given `--out` directory (e.g. `stack_pca_1.png`, `stack_nmf_2.png`, `kmeans_1.png`, …).
+
+-----------------------
+
+## Credit
+
+**Design and architecture by Dang Hoang, AI Engineer**

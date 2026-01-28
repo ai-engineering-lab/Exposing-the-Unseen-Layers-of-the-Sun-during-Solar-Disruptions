@@ -1,5 +1,5 @@
 """
-Solar image slicing via unsupervised decomposition (NMF, PCA, ICA) and clustering.
+Solar image slicing via unsupervised decomposition (NMF, PCA, ICA, Robust PCA) and clustering.
 Produces separate "layer" images from GOES-16 SUVI-style solar imagery.
 """
 from __future__ import annotations
@@ -93,6 +93,41 @@ def run_ica(X: np.ndarray, n_components: int = 3) -> tuple[np.ndarray, np.ndarra
     return ica.mixing_, S
 
 
+def run_rpca(X: np.ndarray, lam: float | None = None, max_iter: int = 100, tol: float = 1e-7) -> tuple[np.ndarray, np.ndarray]:
+    """
+    Robust PCA: X = L + S, L low-rank (background), S sparse (anomalies).
+    Uses IALM (Inexact Augmented Lagrange Multiplier). Pure numpy.
+    X: (m, n). Returns (L, S).
+    """
+    m, n = X.shape
+    if lam is None:
+        lam = 1.0 / np.sqrt(max(m, n))
+    mu = 1.25 / (np.linalg.norm(X, ord=2) + 1e-8)
+    rho = 1.5
+    Y = np.zeros_like(X)
+    S = np.zeros_like(X)
+    for _ in range(max_iter):
+        # L = singular_value_threshold(X - S + Y/mu, 1/mu)
+        Z = X - S + Y / mu
+        try:
+            U, sig, Vt = np.linalg.svd(Z, full_matrices=False)
+        except np.linalg.LinAlgError:
+            break
+        tau = 1.0 / mu
+        sig_thresh = np.maximum(sig - tau, 0.0)
+        L = (U * sig_thresh) @ Vt
+        # S = soft_threshold(X - L + Y/mu, lam/mu)
+        T = X - L + Y / mu
+        S = np.sign(T) * np.maximum(np.abs(T) - lam / mu, 0.0)
+        # Y = Y + mu * (X - L - S); mu = min(mu * rho, 1e10)
+        Y = Y + mu * (X - L - S)
+        rel_err = np.linalg.norm(X - L - S, ord="fro") / (np.linalg.norm(X, ord="fro") + 1e-8)
+        if rel_err < tol:
+            break
+        mu = min(mu * rho, 1e10)
+    return L, S
+
+
 # -----------------------------------------------------------------------------
 # Clustering
 # -----------------------------------------------------------------------------
@@ -141,6 +176,13 @@ def layers_from_stack(
     for i in range(T_ica.shape[1]):
         layer = MinMaxScaler(feature_range=(0, 1)).fit_transform(T_ica[:, i : i + 1]).ravel()
         layers[f"{prefix}ica_{i+1}"] = layer.reshape(h, w)
+
+    # Robust PCA: background (L) + anomalies (S)
+    L, S = run_rpca(X)
+    bg = np.mean(L, axis=1).reshape(h, w)
+    anom = np.abs(S).max(axis=1).reshape(h, w)
+    layers[f"{prefix}rpca_background"] = MinMaxScaler(feature_range=(0, 1)).fit_transform(bg.reshape(-1, 1)).ravel().reshape(h, w)
+    layers[f"{prefix}rpca_anomalies"] = MinMaxScaler(feature_range=(0, 1)).fit_transform(anom.reshape(-1, 1)).ravel().reshape(h, w)
 
     return layers
 
