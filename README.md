@@ -62,3 +62,52 @@ _source: https://www.swpc.noaa.gov/_
 ---------------
 
 _Additional Slices: https://github.com/ai-engineering-lab/Exposing-the-Unseen-Layers-of-the-Sun-during-Solar-Disruptions/tree/main/slices_
+
+-----------------------
+
+## Virtual environment (venv)
+
+Create and use a project venv:
+
+```bash
+# Create
+python3 -m venv .venv
+
+# Activate (macOS/Linux)
+source .venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+On Windows: `.venv\Scripts\activate`. The `.venv/` directory is listed in `.gitignore`.
+
+-----------------------
+
+## Solar slicing (Python): NMF, PCA, ICA + clustering
+
+Unsupervised decomposition and clustering are implemented in `solar_slicing.py`. It produces separate “layer” images using:
+
+- **PCA** – principal components over pixel vectors
+- **NMF** – non-negative matrix factorization
+- **ICA** – independent component analysis
+- **K-means** – clustering on (intensity, x, y) for single-image mode
+
+**Setup:** Activate the venv, then `pip install -r requirements.txt` (numpy, scikit-learn, Pillow).
+
+**Run (default: stack of `image.png`, `image-3.png`, `image-5.png`):**
+```bash
+python3 solar_slicing.py --out output_slices
+```
+
+**Single image (decomposition + K-means layers):**
+```bash
+python3 solar_slicing.py --single image.png --out output_slices --components 3 --clusters 4
+```
+
+**Explicit image list:**
+```bash
+python3 solar_slicing.py --images image.png image-3.png image-5.png --out output_slices --components 3
+```
+
+Outputs are saved as PNGs in the given `--out` directory (e.g. `stack_pca_1.png`, `stack_nmf_2.png`, `kmeans_1.png`, …).
