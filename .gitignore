@@ -15,5 +15,12 @@ build/
 .idea/
 .DS_Store
 
+# Python source and text files
+*.py
+*.txt
+
+# Docs (ignored)
+UNSUPERVISED_ML.md
+
 # Output (optional: remove if you want to track output_slices)
 # output_slices/
