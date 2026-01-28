@@ -65,23 +65,4 @@ _Additional Slices: https://github.com/ai-engineering-lab/Exposing-the-Unseen-La
 
 -----------------------
 
-## Virtual environment (venv)
-
-Create and use a project venv:
-
-```bash
-# Create
-python3 -m venv .venv
-
-# Activate (macOS/Linux)
-source .venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-On Windows: `.venv\Scripts\activate`. The `.venv/` directory is listed in `.gitignore`.
-
------------------------
-
 **Design and architecture by Dang Hoang, AI Engineer**
