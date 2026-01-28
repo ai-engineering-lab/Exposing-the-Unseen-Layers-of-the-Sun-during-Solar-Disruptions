@@ -15,8 +15,5 @@ build/
 .idea/
 .DS_Store
 
-*.py
-*.txt
-
 # Output (optional: remove if you want to track output_slices)
 # output_slices/
