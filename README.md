@@ -65,4 +65,24 @@ _Additional Slices: https://github.com/ai-engineering-lab/Exposing-the-Unseen-La
 
 -----------------------
 
+## SolarFlare GOES Archive — GOES sequence LSTM
+
+From `SolarFlare-GOES-Archive/` (GOES seq LSTM outputs).
+
+| 0000 | 0001 | 0002 | 0003 | 0004 |
+|------|------|------|------|------|
+| ![0000](SolarFlare-GOES-Archive/1780438098096_0000_GOES_seq_0000_lstm.png) | ![0001](SolarFlare-GOES-Archive/1780438098096_0001_GOES_seq_0001_lstm.png) | ![0002](SolarFlare-GOES-Archive/1780438098096_0002_GOES_seq_0002_lstm.png) | ![0003](SolarFlare-GOES-Archive/1780438098096_0003_GOES_seq_0003_lstm.png) | ![0004](SolarFlare-GOES-Archive/1780438098096_0004_GOES_seq_0004_lstm.png) |
+
+---------------
+
+## SolarFlare GOES Archive — GOES-16 SUVI 2024-10-11 syn LSTM
+
+From `SolarFlare-GOES-Archive/` (synthetic LSTM layers for GOES-16 SUVI 2024-10-11 02:04:36).
+
+| 0000 | 0001 | 0002 | 0003 | 0004 |
+|------|------|------|------|------|
+| ![0000](SolarFlare-GOES-Archive/1780438244666_0000_GOES-16SUVI-2024-10-11-02-04-36_syn_lstm.png) | ![0001](SolarFlare-GOES-Archive/1780438244666_0001_GOES-16SUVI-2024-10-11-02-04-36_syn_lstm.png) | ![0002](SolarFlare-GOES-Archive/1780438244666_0002_GOES-16SUVI-2024-10-11-02-04-36_syn_lstm.png) | ![0003](SolarFlare-GOES-Archive/1780438244666_0003_GOES-16SUVI-2024-10-11-02-04-36_syn_lstm.png) | ![0004](SolarFlare-GOES-Archive/1780438244666_0004_GOES-16SUVI-2024-10-11-02-04-36_syn_lstm.png) |
+
+-----------------------
+
 **Design and architecture by Dang Hoang, AI Engineer**
